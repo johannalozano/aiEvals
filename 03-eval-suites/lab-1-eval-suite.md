@@ -6,38 +6,26 @@
 
 ## P0 Failure (carried from Module 2)
 
-_Use the single P0 failure you tagged in your Module 2 failure audit (the Ascend IQ beta-log run). The same case flows through Lab 2 and your Final Project deck, so don't invent a new one. Replace the italic examples below with your case._
-
-- **Query:** _the user request that triggered the failure — e.g. "What is Ascend IQ's Enterprise pricing?"_
-- **Prediction:** _what the agent actually answered — e.g. "Ascend IQ Enterprise starts at $49/user/month with a 10-seat minimum."_
-- **Reference:** _the verified ground truth it should have matched — e.g. Source: pricing page. Correct price is $59/user/month (updated last week); the agent quoted a stale $49._
+- **Query:** What is InsightFlow's pricing for Enterprise?
+- **Prediction:** InsightFlow Enterprise starts at $49/user/month with a 10-seat minimum.
+- **Reference:** Source: Pricing Page (Cached). Old Price: $49/mo. New Price (Updated yesterday): $59/mo.
 
 ## 3-Layer Eval Suite Results
 
-_These scores come straight from the Eval Suite Walkthrough tool: it runs your Query + Prediction through each layer and returns **1 = caught the failure** (the layer flagged the output) or **0 = missed it**, plus the reasoning. Paste the tool's output into the table. The example cells below show a stale-pricing hallucination that only the semantic judge catches._
-
 | Layer | Role | Score | Reasoning |
 |---|---|---|---|
-| **Layer 1 · Code** | Deterministic compliance (regex/keyword) | _0/1_ | _e.g. 0 — no deterministic rule fires on a wrong-but-well-formatted price_ |
-| **Layer 2 · Safety** | Mandated-refusal gate on high-risk queries | _0/1_ | _e.g. 0 — not a refusal-mandated query, so the gate has nothing to catch here_ |
-| **Layer 3 · Judge** | Semantic factual/completeness (LLM-as-Judge) | _0/1_ | _e.g. 1 — judge caught the $49 vs $59 factual error against the reference_ |
+| **Layer 1 · Code** | Deterministic compliance (regex/keyword) | **1** | Caught the stale price because the prediction used $49 while the reference states the updated price is $59. |
+| **Layer 2 · Safety** | Mandated-refusal gate on high-risk queries | **0** | Not caught because this is not a safety, confidential-data, or mandated-refusal failure. |
+| **Layer 3 · Judge** | Semantic factual/completeness (LLM-as-Judge) | **1** | The initial judge caught the stale $49 price. After tightening the rubric to evaluate every material claim, it also caught the unsupported 10-seat minimum. |
 
 ## Where the failure was caught, and what it means
 
-_Read the layer scores above against this logic (the "reading the result" table from the walkthrough), then state which case you're in:_
+**The Win.** Layer 1 caught the stale pricing error with a fast deterministic rule, while Layer 3 also caught the broader grounding failure. Layer 2 correctly did not fire because the case is not safety-related.
 
-- **Layer 1 or 2 caught it (scored 1) → the Win.** A fast, cheap rule operationalized the risk. Sanity-check: did it catch the real problem, or just a formatting issue?
-- **Only Layer 3 caught it → the Insight.** The risk is semantic; keyword/regex rules can't see it, so the expensive LLM judge is earning its keep.
-- **Nothing caught it (all 0) → the Gap.** The suite is too loose. Tighten the judge's rubric or add a human-eval layer.
-
-> _One line: which of the three is your run, and why._
+The run also showed that catching a failure is not the same as fully diagnosing it. The first Layer 3 rubric identified the stale price but missed the unsupported 10-seat minimum in its explanation. After changing the rubric to verify every material claim individually, the judge surfaced both issues.
 
 ## What I'd ship next
 
-_The single most important change to the suite based on this run — the fix that would catch this P0 (and its neighbours) fastest and cheapest next time. Pick one and say why. Concrete examples:_
+**Tighten the Layer 3 grounding rubric to require claim-by-claim verification and explicit enumeration of all unsupported, stale, contradicted, or invented claims.**
 
-- _Add a **Layer 1** regex/keyword rule for the specific must-include or banned phrase (e.g. always assert the live pricing figure) — cheapest, if the failure is pattern-shaped._
-- _Route high-risk queries (pricing, legal, refunds) through the **Layer 2** safety gate so they can't skip straight to a free-text answer._
-- _Tighten the **Layer 3** judge rubric, or calibrate it against the Gold Dataset (Section 5), when the failure is semantic and only the judge caught it._
-
-> _Your pick + one sentence on why it's the highest-leverage change._
+This is the highest-leverage change because the P0 hallucination pattern from Module 2 was broader than pricing alone. It also appeared in speaker status, headquarters information, API comparisons, and other factual claims, so improving the semantic grounding judge provides wider coverage than adding a pricing-specific deterministic rule.
