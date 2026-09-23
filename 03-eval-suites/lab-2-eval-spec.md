@@ -7,12 +7,12 @@
 | **01 · Target Risk** | Ascend IQ presents unsupported, stale, contradicted, or invented factual claims as fact. |
 | **Risk Type** | Output |
 | **Trust Metric** | Hallucination Rate / `#HALLUCINATION` |
-| **02 · Evaluator** | Layer 3 semantic LLM-as-a-Judge, supported by Layer 1 deterministic checks where structured facts allow it. |
-| **Detection logic** | Evaluate every material factual claim against the verified reference and flag the response if any claim is unsupported, stale, contradicted, or invented. |
-| **03 · Threshold** | Hallucination rate must remain at or below **2%** on the P0 eval suite before launch. |
+| **02 · Evaluator** | Layer 3 semantic LLM-as-a-Judge, supported by Layer 1 deterministic checks where structured facts allow it, with human review used to calibrate the judge and adjudicate ambiguous or disputed cases. |
+| **Detection logic** | Evaluate every material factual claim against the verified reference and flag the response if any claim is unsupported, stale, contradicted, or invented. Human reviewers validate judge performance on a labeled calibration set and review disagreements where needed. |
+| **03 · Threshold** | Hallucination rate must remain at or below **2%** on the P0 eval suite before launch, and LLM-judge agreement with human labels must achieve **Cohen's κ ≥ 0.60**. |
 | **Strategy** | Safety First (max TPR) |
 | **04 · Business Stakes** | Unsupported or invented market-intelligence claims can cause enterprise customers to make incorrect pricing, competitive, or strategic decisions, which can erode trust, increase churn risk, and damage the credibility of Ascend Analytics as a premium intelligence platform. |
-| **05 · Owner** | Ascend IQ Product Lead, with AI Engineering as implementation partner. |
+| **05 · Owner** | Ascend IQ Product Lead, with authority to sign off on launch, supported by AI Engineering for evaluator implementation and remediation. |
 
 
 ## Part 2 · Three Audience Messages
@@ -20,8 +20,10 @@
 ### A. For Engineering (Jira ticket)
 
 **GIVEN** Ascend IQ produces a response containing one or more material factual claims,  
-**WHEN** the grounding evaluator checks those claims against the verified reference,  
-**THEN** the response must be blocked if any material claim is unsupported, stale, contradicted, or invented. Across the P0 eval suite, the hallucination rate must remain at or below **2%**.
+**WHEN** those claims are checked against the verified reference,  
+**THEN** the response must be blocked if any material claim is unsupported, stale, contradicted, or invented.
+
+The P0 eval suite must maintain a hallucination rate of **≤2%**, and the LLM judge must achieve **Cohen's κ ≥ 0.60** against human labels.
 
 ### B. For UX / Design
 
@@ -29,7 +31,7 @@ When the grounding gate detects unsupported or conflicting evidence, Ascend IQ s
 
 ### C. For Leadership (bi-weekly update)
 
-We are treating unsupported factual claims as Ascend IQ’s highest-severity quality risk. Our launch target is a hallucination rate of **≤2%** on the P0 eval suite, using deterministic checks where possible and semantic grounding checks for broader claims. This reduces the risk of enterprise customers making decisions based on incorrect intelligence and protects trust and retention.
+We are treating unsupported factual claims as Ascend IQ's highest-severity quality risk. Our launch target is a hallucination rate of **≤2%**, with human-validated evaluation to ensure the quality measure itself is reliable. This reduces the risk of enterprise customers making decisions based on incorrect intelligence and protects trust and retention.
 
 ---
 
