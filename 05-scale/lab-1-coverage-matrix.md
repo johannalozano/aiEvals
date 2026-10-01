@@ -4,32 +4,34 @@
 >
 > Fill this with the **Coverage Matrix Tool**, then **Copy markdown** and paste it over this file. The headings below mirror the tool's output exactly. **Force ≥2 ❌ gaps** — an all-green matrix isn't real.
 
-**Product:** _…_
+**Product:** AI-Powered Report Summaries
 
 ## Coverage row
 
 | Product | Hallucination | Bias | Latency | Toxicity | Drift Monitoring |
 |---|---|---|---|---|---|
-| _…_ | _✅ / ⚠️ / ❌_ | _✅ / ⚠️ / ❌_ | _✅ / ⚠️ / ❌_ | _✅ / ⚠️ / ❌_ | _✅ / ⚠️ / ❌_ |
+| AI-Powered Report Summaries | ✅ | ❌ | ✅ | ⚠️ | ❌ |
 
 ## Method + Ground Truth (two ✅/⚠️ cells)
 
-### _Risk name 1_
-- **Method:** _how you evaluate it_
-- **Ground truth:** _what you grade against_
+### Hallucination Rate
+- **Method:** Run claim-by-claim grounding evaluation against retrieved source evidence using deterministic checks where possible and a calibrated LLM-as-a-Judge for semantic claims.
+- **Ground truth:** The verified retrieved source or reference used for each eval case.
 
-### _Risk name 2_
-- **Method:** _how you evaluate it_
-- **Ground truth:** _what you grade against_
+### Latency
+- **Method:** Measure p95 response latency across the deterministic regression replay and compare it against the defined latency floor and allowed regression limit.
+- **Ground truth:** Response-time measurements from the regression golden set, evaluated against the agreed SLA / performance threshold.
 
 ## Strategic acceptance
 
-**Accepted gap:** _which ❌ you're accepting_
+**Accepted gap:** Bias / Fairness
 
-> _Why it's an acceptable risk right now + the kill criterion / date that would change the call._
+> We are accepting this gap for now because we do not currently have evidence of group-specific disparity, and fairness was not one of the prioritized trust metrics for Ascend IQ.  
+>
+> **Kill criterion:** If we receive a credible complaint or detect an internal signal showing materially different answer quality across a user or company segment, we stop accepting this gap and build a dedicated fairness evaluation.
 
 ## Critical mitigation
 
-- **Critical gap:** _the ❌ you cannot accept_
-- **Why critical:** _…_
-- **Mitigation plan:** _concrete plan with a date/owner — not "we'll add it later"._
+- **Critical gap:** Drift Monitoring
+- **Why critical:** A model can pass launch evals and still degrade over time as data, prompts, retrieval behavior, or usage patterns change. Without drift monitoring, quality could deteriorate in production without being detected quickly.
+- **Mitigation plan:** Ascend IQ Product Lead and AI Engineering will add a recurring production drift evaluation that samples live Ascend IQ interactions, scores key trust dimensions against the launch baseline, and triggers review when performance exceeds agreed regression limits. Monitoring will run **weekly**, with a formal **monthly review**.
