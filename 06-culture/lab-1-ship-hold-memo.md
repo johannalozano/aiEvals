@@ -4,44 +4,33 @@
 >
 > Fill this with the **Ship/Hold Memo Builder**, then **Copy markdown** and paste it over this file. The headings below mirror the tool's output exactly.
 
-> **Decision:** 🚀 SHIP _(or 🛑 HOLD)_
+> **Decision:** 🛑 HOLD
 
-**To:** _[CPO] · cc Eng Lead · Trust & Safety_
-**From:** _[Your Name] · AI Evals Cohort · [Date]_
+**To:** CPO · cc Eng Lead · Trust & Safety  
+**From:** Group Product Manager · AI Evals Cohort · October 3, 2026
 
 ## The Answer
 
-_First sentence = the recommendation and the business reason. Do not bury it._
+**HOLD Ascend IQ from production launch until the P0 faithfulness and hallucination gates are back within threshold, because the current regression creates unacceptable trust risk for enterprise customers.**
 
 ## The Arguments
 
-### 1. _Argument pillar title_
+### 1. Reliability risk
 
-_…_
+Ascend IQ's core promise is trustworthy market intelligence, but the current system still produces unsupported or incorrect factual claims. That makes the product unreliable in exactly the situations where enterprise users depend on it for pricing, competitive, and product decisions.
 
-### 2. _Argument pillar title_
+### 2. Revenue and trust risk
 
-_…_
+If enterprise customers act on incorrect intelligence, the cost is bigger than a bad answer. It can erode confidence in Ascend Analytics, increase churn risk, and weaken the credibility of a premium product that customers expect to be dependable.
 
-### 3. _Argument pillar title_
+### 3. Eval readiness
 
-_…_
+The evaluation system is now mature enough to detect these failures consistently through calibrated judging, regression gates, and launch thresholds. The problem is no longer whether we can measure quality; it is that Ascend IQ has not yet met the quality bar we defined.
 
 ## Evidence · Trust Metrics
 
-```
-- Metric: result (Gate: bar) PASS/FAIL · Source
-- … cite exact numbers from M2–M5 (hallucination rate vs gate, factual grounding %, bias coverage %, p95 latency)
-```
-
-## Business Risk
-
-_Quantified SHIP-path vs HOLD-path risk (revenue, churn, competitive window)._
-
-## Next Step · Decision Needed
-
-_A specific decision request with a deadline — e.g. "Approve the Hold rollback by Friday to keep the Q3 launch window."_
-
-## Reflection
-
-_What defining "good enough" forced you to confront._
+```text
+- Hallucination rate: 30% (6/20 cases) (Gate: ≤2%) FAIL · Source: M2 Failure Taxonomy / M3 Eval Spec
+- Faithfulness: 87, down from 96 on main (-9 pts) (Gate: floor ≥90; max regression 3 pts) FAIL · Source: M4 CI Gate Policy
+- Judge calibration: Cohen's κ = 1.00, 100% agreement across 12/12 cases (Gate: κ ≥0.60) PASS · Source: M3 Judge Calibration
+- Hallucination coverage: Level 3 continuous monitoring, $85K/Q (Risk: P0) · Source: M5 Budget Crisis
