@@ -34,3 +34,20 @@ The evaluation system is now mature enough to detect these failures consistently
 - Faithfulness: 87, down from 96 on main (-9 pts) (Gate: floor ≥90; max regression 3 pts) FAIL · Source: M4 CI Gate Policy
 - Judge calibration: Cohen's κ = 1.00, 100% agreement across 12/12 cases (Gate: κ ≥0.60) PASS · Source: M3 Judge Calibration
 - Hallucination coverage: Level 3 continuous monitoring, $85K/Q (Risk: P0) · Source: M5 Budget Crisis
+```
+
+The evaluator is calibrated well enough to trust the signal; the product itself is still failing the core trust gate.
+
+## Business Risk
+
+Shipping now would expose at least **$2.5M in annual enterprise contract value** across the planned top-50-account launch cohort to a product that is still failing its core factual-grounding gate.
+
+Holding delays the launch window, but limits the risk of trust erosion, churn, and credibility damage while the P0 regression is corrected.
+
+## Next Step · Decision Needed
+
+**Approve the HOLD and require the retrieval-prompt regression to be corrected, then rerun the 30-case deterministic replay and P0 grounding suite before reconsidering launch. Reassess the ship decision within two weeks.**
+
+## Reflection
+
+Defining "good enough" forced me to separate what feels acceptable from what is actually measurable and defensible. The biggest realization was that a product can sound strong while still failing a trust threshold that should block launch.
