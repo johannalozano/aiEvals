@@ -3,20 +3,253 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Final Pitch Deck — placeholder</title>
+  <title>Ascend IQ Ship/Hold Pitch</title>
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:#07162C; color:#e8eefc; margin:0; display:grid; place-items:center; min-height:100vh; }
-    .card { max-width:640px; padding:40px; line-height:1.6; }
-    h1 { font-size:22px; margin:0 0 12px; }
-    code { background:rgba(255,255,255,0.08); padding:2px 6px; border-radius:4px; font-size:13px; }
-    a { color:#8ec5ff; }
+    :root{
+      --bg:#0a1020;
+      --panel:#101a32;
+      --panel2:#15213f;
+      --ink:#f7f9ff;
+      --muted:#aab5d1;
+      --line:#2b3a63;
+      --red:#ff5f73;
+      --yellow:#ffd166;
+      --blue:#61dafb;
+      --green:#70e39a;
+      --purple:#a78bfa;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(circle at top left,#1f2b52 0,#0a1020 42%,#070b17 100%);color:var(--ink);font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;overflow:hidden}
+    .deck{width:100vw;height:100vh;position:relative}
+    .slide{display:none;width:100%;height:100%;padding:56px 72px;position:absolute;inset:0;overflow:hidden}
+    .slide.active{display:block}
+    .kicker{font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);font-weight:800;margin-bottom:18px}
+    h1{font-size:66px;line-height:1.02;margin:0 0 22px;font-weight:900;letter-spacing:-.04em}
+    h2{font-size:44px;line-height:1.08;margin:0 0 28px;font-weight:900;letter-spacing:-.03em}
+    h3{font-size:24px;margin:0 0 10px;color:#fff}
+    p{font-size:22px;line-height:1.45;color:var(--muted);margin:0 0 18px;max-width:1000px}
+    .big{font-size:30px;line-height:1.35;color:#dfe6ff;max-width:1120px}
+    .answer{font-size:42px;line-height:1.18;font-weight:900;color:#fff;max-width:1160px;margin-top:30px}
+    .pill{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:999px;padding:10px 16px;background:rgba(255,255,255,.06);font-size:16px;color:#dce5ff;font-weight:800}
+    .hold{color:white;background:linear-gradient(135deg,#e11d48,#fb7185);border:0}
+    .ship{background:linear-gradient(135deg,#059669,#70e39a);border:0;color:#04110a}
+    .grid{display:grid;gap:18px}
+    .cols2{grid-template-columns:1fr 1fr}.cols3{grid-template-columns:repeat(3,1fr)}.cols4{grid-template-columns:repeat(4,1fr)}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.045));border:1px solid rgba(255,255,255,.14);border-radius:24px;padding:24px;box-shadow:0 18px 60px rgba(0,0,0,.22)}
+    .card p{font-size:18px}.card .num{font-size:42px;font-weight:950;letter-spacing:-.04em;color:#fff;margin-bottom:6px}.card .label{font-size:14px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:900}
+    .status{font-weight:950;font-size:18px;padding:6px 12px;border-radius:999px;display:inline-block}.fail{background:rgba(255,95,115,.18);color:#ff9bac}.pass{background:rgba(112,227,154,.15);color:#9ff2ba}.warn{background:rgba(255,209,102,.16);color:#ffe08c}
+    table{width:100%;border-collapse:separate;border-spacing:0 10px;font-size:18px}th{text-align:left;color:#9fb0d9;text-transform:uppercase;font-size:12px;letter-spacing:.12em;padding:0 12px 4px}td{background:rgba(255,255,255,.065);padding:14px 12px;color:#f5f7ff;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1)}td:first-child{border-left:1px solid rgba(255,255,255,.1);border-radius:12px 0 0 12px;font-weight:800}td:last-child{border-right:1px solid rgba(255,255,255,.1);border-radius:0 12px 12px 0}.small td{font-size:15px;padding:10px 12px}.small th{font-size:11px}
+    .footer{position:absolute;left:72px;right:72px;bottom:30px;display:flex;justify-content:space-between;align-items:center;color:#7f8daf;font-size:14px}.progress{height:6px;width:240px;background:rgba(255,255,255,.12);border-radius:999px;overflow:hidden}.bar{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));width:0}.accent{color:var(--blue)}.danger{color:var(--red)}.good{color:var(--green)}.yellow{color:var(--yellow)}
+    .timeline{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:28px}.step{border-top:4px solid var(--blue);padding-top:12px}.step b{display:block;color:#fff;font-size:20px;margin-bottom:6px}.step span{font-size:15px;color:var(--muted)}
+    .quote{border-left:6px solid var(--red);padding:18px 26px;background:rgba(255,95,115,.08);border-radius:0 18px 18px 0;font-size:28px;line-height:1.35;color:#fff;font-weight:800;max-width:1100px}
+    .heroCircle{position:absolute;width:520px;height:520px;border-radius:50%;right:-120px;top:-120px;background:radial-gradient(circle,#ff5f73 0,#a78bfa 42%,rgba(97,218,251,.04) 70%);opacity:.22;filter:blur(4px)}
+    .split{display:grid;grid-template-columns:1.12fr .88fr;gap:42px;align-items:center}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.note{font-size:16px;color:#8ea1cb;margin-top:10px}.center{display:flex;align-items:center;justify-content:center;height:70%;text-align:center;flex-direction:column}.mini{font-size:16px;color:var(--muted)}
+    @media print{body{overflow:visible;background:#0a1020}.slide{display:block;position:relative;page-break-after:always;height:100vh}.footer{display:none}}
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Replace this file with your generated pitch deck.</h1>
-    <p>This is a placeholder. In <strong>Module 6</strong>, use the <em>Final Pitch Prompt Generator</em> to assemble every M1–M5 artifact plus your Ship/Hold memo into a single prompt, paste it into ChatGPT / Claude / Gemini, and save the returned HTML deck here as <code>06-culture/lab-2-final-pitch.html</code>.</p>
-    <p>Then submit this deck plus your repo URL to the learning platform within 7 days of your cohort ending.</p>
-  </div>
+<div class="deck" id="deck">
+
+  <section class="slide active">
+    <div class="heroCircle"></div>
+    <div class="kicker">Ascend Analytics · AI Evals Capstone</div>
+    <h1>Audit Ascend IQ:<br><span class="danger">Hold</span> the launch</h1>
+    <p class="big">A ship-or-hold recommendation for the customer-facing market-intelligence AI agent.</p>
+    <div style="margin-top:34px;display:flex;gap:14px;align-items:center">
+      <span class="pill hold">🛑 HOLD</span>
+      <span class="pill">Top 50 enterprise accounts</span>
+      <span class="pill">$2.5M+ annual exposure</span>
+    </div>
+    <div class="footer"><span>Module 6 · Final Pitch</span><div class="progress"><div class="bar"></div></div><span class="count"></span></div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Executive answer</div>
+    <h2>Recommendation first</h2>
+    <div class="quote">HOLD Ascend IQ from production launch until the P0 faithfulness and hallucination gates are back within threshold.</div>
+    <p class="big" style="margin-top:34px">The current regression creates unacceptable trust risk for enterprise customers who rely on Ascend IQ for pricing, competitive, and product intelligence.</p>
+    <div class="grid cols3" style="margin-top:26px">
+      <div class="card"><div class="label">Decision</div><div class="num danger">HOLD</div><p>Trust debt is too high for a premium client-facing launch.</p></div>
+      <div class="card"><div class="label">Gate status</div><div class="num danger">Blocked</div><p>Faithfulness failed a blocking CI gate.</p></div>
+      <div class="card"><div class="label">Reassess</div><div class="num">2 weeks</div><p>Fix retrieval prompt, rerun evals, then revisit ship decision.</p></div>
+    </div>
+    <div class="footer"><span>Answer</span><div class="progress"><div class="bar"></div></div><span class="count"></span></div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Scenario & promise</div>
+    <h2>Ascend IQ is high leverage — and high trust-risk</h2>
+    <div class="split">
+      <div>
+        <p class="big">Ascend IQ answers plain-language market-intelligence questions for VP-level enterprise users who pay for verified data.</p>
+        <p>Its promise is speed without sacrificing trust: fast synthesis of evidence that would otherwise require manual research inside a dense platform.</p>
+      </div>
+      <div class="card">
+        <div class="label">User promise</div>
+        <p style="font-size:24px;color:#fff;font-weight:800">For enterprise strategists and product leaders, Ascend IQ promises fast, evidence-grounded answers so they can make roadmap and competitive decisions with confidence.</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="step"><b>M1</b><span>Strategy & trust metrics</span></div>
+      <div class="step"><b>M2</b><span>Failure discovery</span></div>
+      <div class="step"><b>M3</b><span>Eval suites</span></div>
+      <div class="step"><b>M4</b><span>Eval gates</span></div>
+      <div class="step"><b>M5</b><span>Scale & budget</span></div>
+      <div class="step"><b>M6</b><span>Ship/Hold memo</span></div>
+    </div>
+    <div class="footer"><span>Context</span><div class="progress"><div class="bar"></div></div><span class="count"></span></div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Module 2 · Failure discovery</div>
+    <h2>The audit found a P0 hallucination pattern</h2>
+    <div class="grid cols4">
+      <div class="card"><div class="label">Rows audited</div><div class="num">20</div><p>Real Ascend IQ outputs reviewed.</p></div>
+      <div class="card"><div class="label">Confirmed fails</div><div class="num danger">8</div><p>No human overrides.</p></div>
+      <div class="card"><div class="label">Hallucination fails</div><div class="num danger">6</div><p>Unsupported or incorrect claims.</p></div>
+      <div class="card"><div class="label">Hallucination rate</div><div class="num danger">30%</div><p>6 of 20 audited cases.</p></div>
+    </div>
+    <table style="margin-top:28px">
+      <thead><tr><th>Top failure</th><th>Trust tag</th><th>Frequency</th><th>Severity</th><th>Business impact</th></tr></thead>
+      <tbody>
+        <tr><td>Unsupported / incorrect factual claims</td><td>#HALLUCINATION</td><td>6/20 · 30%</td><td><span class="status fail">P0</span></td><td>Can mislead enterprise strategy decisions.</td></tr>
+        <tr><td>Failure to use available evidence</td><td>#ROBUSTNESS</td><td>1/20 · 5%</td><td><span class="status warn">P1</span></td><td>Makes the assistant appear unreliable.</td></tr>
+        <tr><td>Brand / response-constraint failure</td><td>#UX_TRUST</td><td>1/20 · 5%</td><td><span class="status warn">P1</span></td><td>Weakens premium enterprise trust.</td></tr>
+      </tbody>
+    </table>
+    <div class="footer"><span>M2 evidence</span><div class="progress"><div class="bar"></div></div><span class="count"></span></div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Module 3 · Eval suite</div>
+    <h2>The evaluator is now trustworthy — and it detects the problem</h2>
+    <div class="grid cols3">
+      <div class="card"><div class="label">Layer 1 · Code</div><div class="num good">Caught</div><p>Detected stale $49 pricing against $59 reference.</p></div>
+      <div class="card"><div class="label">Layer 2 · Safety</div><div class="num">N/A</div><p>Correctly did not fire for a non-safety issue.</p></div>
+      <div class="card"><div class="label">Layer 3 · Judge</div><div class="num good">Caught</div><p>After rubric tightening, caught stale price and unsupported 10-seat minimum.</p></div>
+    </div>
+    <div class="grid cols2" style="margin-top:26px">
+      <div class="card"><h3>Judge calibration</h3><p><b class="good" style="font-size:34px">κ = 1.00</b></p><p>100% agreement across 12/12 calibration traces. Gate was κ ≥ 0.60.</p></div>
+      <div class="card"><h3>Trajectory eval</h3><p><b class="danger" style="font-size:34px">1/6 · HOLD</b></p><p>The usage-drop agent path skipped critical diagnostic steps. A plausible final answer did not rescue a broken path.</p></div>
+    </div>
+    <p class="note">Core lesson: the measurement system is reliable enough to trust; the product still fails the bar.</p>
+    <div class="footer"><span>M3 evidence</span><div class="progress"><div class="bar"></div></div><span class="count"></span></div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Module 4 · Eval gates</div>
+    <h2>The release control blocked the PR</h2>
+    <div class="split">
+      <div>
+        <table class="small">
+          <thead><tr><th>Dimension</th><th>Main</th><th>PR</th><th>Gate</th><th>Result</th></tr></thead>
+          <tbody>
+            <tr><td>Faithfulness</td><td>96</td><td>87</td><td>Floor 90 · max reg 3</td><td><span class="status fail">FAIL</span></td></tr>
+            <tr><td>Task completion</td><td>92</td><td>93</td><td>Floor 85 · max reg 5</td><td><span class="status pass">PASS</span></td></tr>
+            <tr><td>Tool selection</td><td>90</td><td>88</td><td>Floor 85 · max reg 3</td><td><span class="status pass">PASS</span></td></tr>
+            <tr><td>Safety / policy</td><td>99</td><td>99</td><td>Floor 98 · max reg 1</td><td><span class="status pass">PASS</span></td></tr>
+            <tr><td>Latency</td><td>84</td><td>80</td><td>Warn-only</td><td><span class="status pass">PASS</span></td></tr>
+            <tr><td>Cost</td><td>88</td><td>82</td><td>Warn-only</td><td><span class="status pass">PASS</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card"><div class="label">Gate result</div><div class="num danger">BLOCKED</div><p>Faithfulness regressed <b>9 points</b>, falling below the 90 floor and beyond the 3-point max regression.</p><p class="mini">Developer action: revisit retrieval prompt and rerun deterministic 30-case replay.</p></div>
+    </div>
+    <div class="footer"><span>M4 evidence</span><div class="progress"><div class="bar"></div></div><span class="count"></span></div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Module 4 · Launch criteria</div>
+    <h2>Release criteria are explicit, numeric, and not met</h2>
+    <table>
+      <thead><tr><th>Gate</th><th>Risk</th><th>Metric</th><th>Threshold</th><th>Mitigation</th></tr></thead>
+      <tbody>
+        <tr><td><span class="status fail">Hard</span></td><td>Hallucination / unsupported claims</td><td>Hallucination rate</td><td>≤ 2%</td><td>Block release</td></tr>
+        <tr><td><span class="status warn">Soft</span></td><td>Failure to use available evidence</td><td>Evidence-use failure rate</td><td>≤ 6%</td><td>Feature flag</td></tr>
+        <tr><td><span class="status pass">Advisory</span></td><td>Tone consistency</td><td>Brand-voice violation rate</td><td>≤ 10%</td><td>Monitor</td></tr>
+      </tbody>
+    </table>
+    <p class="big" style="margin-top:30px">The P0 hard gate is the deciding factor: current hallucination evidence is far above the 2% launch threshold.</p>
+    <div class="footer"><span>Launch controls</span><div class="progress"><div class="bar"></div></div><span class="count"></span></div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Module 5 · Scale</div>
+    <h2>Coverage is honest: two gaps remain</h2>
+    <table>
+      <thead><tr><th>Risk</th><th>Coverage</th><th>Read</th></tr></thead>
+      <tbody>
+        <tr><td>Hallucination</td><td><span class="status pass">✅ Covered</span></td><td>Dedicated grounding eval and calibrated judge.</td></tr>
+        <tr><td>Bias / Fairness</td><td><span class="status fail">❌ Gap</span></td><td>Accepted for now; kill criterion is credible disparity signal.</td></tr>
+        <tr><td>Latency</td><td><span class="status pass">✅ Covered</span></td><td>p95 measured in deterministic replay.</td></tr>
+        <tr><td>Toxicity / UX trust</td><td><span class="status warn">⚠️ Partial</span></td><td>Tone checks exist; no dedicated toxicity benchmark.</td></tr>
+        <tr><td>Drift monitoring</td><td><span class="status fail">❌ Gap</span></td><td>Critical mitigation: weekly production sampling + monthly review.</td></tr>
+      </tbody>
+    </table>
+    <div class="footer"><span>M5 coverage</span><div class="progress"><div class="bar"></div></div><span class="count"></span></div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Module 5 · Budget</div>
+    <h2>Spend is concentrated where the trust risk is highest</h2>
+    <div class="grid cols3">
+      <div class="card"><div class="label">Quarterly cap</div><div class="num">$200K</div><p>Budget constraint.</p></div>
+      <div class="card"><div class="label">Portfolio spend</div><div class="num">$161K</div><p>Under cap.</p></div>
+      <div class="card"><div class="label">L3 slots</div><div class="num">2 / 3</div><p>Continuous monitoring reserved for highest-risk failures.</p></div>
+    </div>
+    <table class="small" style="margin-top:26px">
+      <thead><tr><th>Failure</th><th>Risk</th><th>Level</th><th>Cost</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Data Fabrication</td><td>P0</td><td>L3</td><td>$85K</td><td>Core trust risk.</td></tr>
+        <tr><td>Context Specificity</td><td>P1</td><td>L2</td><td>$7K</td><td>Weekly audit is defensible.</td></tr>
+        <tr><td>Source Attribution</td><td>P1</td><td>L3</td><td>$65K</td><td>Compliance / audit risk.</td></tr>
+        <tr><td>Data Bias</td><td>P2</td><td>L1</td><td>$2.75K</td><td>Accepted gap unless disparity signal appears.</td></tr>
+        <tr><td>Cost Overruns</td><td>P3</td><td>L1</td><td>$1.25K</td><td>Warn-only operational risk.</td></tr>
+      </tbody>
+    </table>
+    <div class="footer"><span>M5 budget</span><div class="progress"><div class="bar"></div></div><span class="count"></span></div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Decision evidence</div>
+    <h2>The number that decides it: <span class="danger">30%</span> vs <span class="good">≤2%</span></h2>
+    <div class="grid cols2">
+      <div class="card"><div class="label">Observed P0 hallucination rate</div><div class="num danger">30%</div><p>6 hallucination failures in 20 audited cases.</p></div>
+      <div class="card"><div class="label">Launch threshold</div><div class="num good">≤2%</div><p>Defined in the M3 eval spec and M4 release criteria.</p></div>
+    </div>
+    <p class="answer">The evaluator is passing calibration; the product is failing the launch bar.</p>
+    <div class="footer"><span>Ship/Hold rationale</span><div class="progress"><div class="bar"></div></div><span class="count"></span></div>
+  </section>
+
+  <section class="slide">
+    <div class="kicker">Business risk & ask</div>
+    <h2>Hold now to protect trust before enterprise rollout</h2>
+    <div class="grid cols2">
+      <div class="card"><div class="label">Exposure</div><div class="num">$2.5M+</div><p>Annual contract value exposed across the top-50-account launch cohort.</p></div>
+      <div class="card"><div class="label">Decision request</div><div class="num">2 weeks</div><p>Approve HOLD, fix retrieval prompt, rerun evals, then reassess.</p></div>
+    </div>
+    <p class="big" style="margin-top:28px">Shipping now risks trust erosion, churn, and credibility damage. Holding delays the launch window, but contains the P0 regression before it reaches the most valuable accounts.</p>
+    <div class="footer"><span>Ask</span><div class="progress"><div class="bar"></div></div><span class="count"></span></div>
+  </section>
+
+  <section class="slide">
+    <div class="center">
+      <div class="kicker">Final call</div>
+      <h1>🛑 HOLD</h1>
+      <p class="big">Do not launch Ascend IQ to the top 50 enterprise accounts until faithfulness and hallucination gates are back within threshold.</p>
+      <div style="margin-top:28px"><span class="pill hold">Fix · Rerun · Reassess in two weeks</span></div>
+    </div>
+    <div class="footer"><span>Final recommendation</span><div class="progress"><div class="bar"></div></div><span class="count"></span></div>
+  </section>
+
+</div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let i=0;
+function show(n){i=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,idx)=>s.classList.toggle('active',idx===i));document.querySelectorAll('.count').forEach(c=>c.textContent=`${i+1}/${slides.length}`);document.querySelectorAll('.bar').forEach(b=>b.style.width=`${((i+1)/slides.length)*100}%`)}
+document.addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))show(i+1);if(['ArrowLeft','PageUp'].includes(e.key))show(i-1);if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1)});
+document.addEventListener('click',e=>{ if(e.target.closest('a')) return; show(i+1); });
+show(0);
+</script>
 </body>
 </html>
